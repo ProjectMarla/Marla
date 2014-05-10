@@ -20,7 +20,8 @@ import java.util.jar.JarFile;
  */
 public class Marla {
 
-    public static String version = "0.0.1.0";
+    public static String VERSION = "0.0.1.0";
+    public static String NAME = "Marla";
     private ArrayList<Output> outputs = new ArrayList<>();
     private ArrayList<Activator> activators = new ArrayList<>();
     private Activator lockedActivator;
