@@ -34,7 +34,21 @@ public class SmartString {
      */
     public static boolean equalsOneOf(String... string){
         for (int i = 1; i < string.length; i++) {
-            if(string[0].equals(string[i])) return true;
+            if(string[0].equalsIgnoreCase(string[i])) return true;
+        }
+        return false;
+    }
+
+    /**
+     * Almost the same thing as @see but this time we are only checking if
+     * the main string is contained in one of the strings
+     * @see com.gmail.robmadeyou.plugin.message.SmartString#equalsOneOf(String...)
+     * @param string
+     * @return
+     */
+    public static boolean containsOneOf(String... string){
+        for (int i = 1; i < string.length; i++) {
+            if(string[0].contains(string[i])) return true;
         }
         return false;
     }

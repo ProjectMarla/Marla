@@ -106,7 +106,12 @@ public class Marla {
                 }
             }
         }else{
-            lockedActivator.in(in);
+            if(!in.equals("!exit"))
+                lockedActivator.in(in);
+            else{
+                output("Exiting from " + lockedActivator.getActivators()[0]);
+                lockedActivator = null;
+            }
         }
         //return this;
     }
