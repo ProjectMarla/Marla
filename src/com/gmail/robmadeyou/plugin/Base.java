@@ -17,7 +17,7 @@ public abstract class Base {
     public abstract void end();
 
     /**
-     * Is called when plugin is ready to be initialzied
+     * Is called when plugin is ready to be initialized
      */
     public abstract void init();
 

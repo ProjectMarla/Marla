@@ -4,6 +4,7 @@ import com.gmail.robmadeyou.plugin.Activator;
 import com.gmail.robmadeyou.plugin.Base;
 import com.gmail.robmadeyou.plugin.Output;
 import com.gmail.robmadeyou.plugin.Thoughts;
+import com.sun.istack.internal.Nullable;
 
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -19,9 +20,19 @@ import java.util.jar.JarFile;
  */
 public class Marla {
 
+    public static String version = "0.0.1.0";
     private ArrayList<Output> outputs = new ArrayList<>();
     private ArrayList<Activator> activators = new ArrayList<>();
+    private Activator lockedActivator;
 
+    /**
+     * Default constructor for the almighty Marla AI??
+     * It looks in the directory brains/* and searches for any Jar
+     * files that have classes inside with the name Main. This will
+     * be later changed so that the developer can name the class to what
+     * ever they want, but as long as they reference it somewhere(most likely
+     * a json or an xml or something along the lines).
+     */
     public Marla(){
         try {
             Files.walk(Paths.get("brains/")).forEach(filePath -> {
@@ -58,17 +69,55 @@ public class Marla {
         }catch (Exception e){e.printStackTrace();}
     }
 
-    public void input(String in){
-        //Check if input is a question
-        in.toLowerCase();
-        if(in.endsWith("?") || in.startsWith("what")){
-
-        }
-        for(Activator ac : activators){
-            ac.check(in);
-        }
+    /**
+     * Locks to a specific activator. This method is
+     * only called from the Activator class, specifically
+     * lock, and unlock methods;
+     * @param ac Activator to lock on to
+     * @return this instance of Marla
+     */
+    public final Marla lockToActivator(Activator ac){
+        this.lockedActivator = ac;
+        return this;
     }
 
+    /**
+     * @return the currently locked activator
+     */
+    @Nullable
+    public final Activator getLockedActivator(){
+        return lockedActivator;
+    }
+
+    /**
+     * How input is handled. From here Marla will figure out
+     * how to parse the input, and what plugins need to be
+     * told about the input. Also handles how
+     * @param in
+     * @return this instance of Marla
+     */
+    public void input(String in){
+        //Check if input is a question
+        if(lockedActivator == null) {
+            for (Activator ac : activators) {
+                if (ac.check(in)) {
+
+                }
+            }
+        }else{
+            lockedActivator.in(in);
+        }
+        //return this;
+    }
+
+    /**
+     * Most basic form of outputting messages to client.
+     * Currently is used as the main way of sending messages
+     * but as new data displays appear, more functionality will
+     * be needed, as in special classes that are able to group data,
+     * in questions, or other ways.
+     * @param out
+     */
     public void output(String out){
         for (int i = 0; i < outputs.size(); i++) {
             outputs.get(i).out(out);
