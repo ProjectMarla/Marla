@@ -5,15 +5,21 @@ package com.gmail.robmadeyou.plugin;
  */
 public abstract class Activator extends Base {
 
-    //Waits 100 milliseconds before checking if a new string has been entered
-    private int TIME_TO_WAIT_FOR_INPUT = 100;
+    //Waits TIME_TO_WAIT_FOR_INPUT milliseconds before checking if a new string has been entered
+    private int TIME_TO_WAIT_FOR_INPUT;
 
     private String NAME;
 
     private String[] activators;
-    private String currentInput = "";
+    private String currentInput;
+    private String description;
+
     public Activator(String... activators){
         this.activators = activators;
+        currentInput = "";
+        TIME_TO_WAIT_FOR_INPUT = 100;
+        description = "";
+        NAME = "";
     }
 
     /**
@@ -66,6 +72,14 @@ public abstract class Activator extends Base {
     }
 
     /**
+     * Set the description of the plugin
+     * @param description plugins description
+     */
+    public final void setDescription(String description){
+        this.description = description;
+    }
+
+    /**
      * Simplest way to print something to the user, will simply
      * notify them via a chat message. This will call Marla's output
      * method, so be careful on what plugins you are using to handle
@@ -96,7 +110,7 @@ public abstract class Activator extends Base {
      * @return input;
      */
     public final String getInput(){
-        while (currentInput == ""){
+        while (currentInput.equals("")){
             try {
                 Thread.sleep(TIME_TO_WAIT_FOR_INPUT);
             }catch (Exception e){out("Thread wasn't able to sleep in: " + this);}
@@ -107,6 +121,14 @@ public abstract class Activator extends Base {
     }
 
     /**
+     * Set the name of the current plugin
+     * @param name
+     */
+    public void setName(String name){
+        this.NAME = name;
+    }
+
+    /**
      * Returns the name of the activator. This is really just
      * only for a nicer looking thing when everything is
      * done in the console.
@@ -114,6 +136,15 @@ public abstract class Activator extends Base {
      */
     public final String getName(){
         return NAME;
+    }
+
+    /**
+     * Returns the Description of the plugin, later on
+     * Marla will read this, and try to see if the input
+     * is relevant to the plugin, and try to select it.
+     */
+    public final String getDescription(){
+        return description;
     }
 
     /**

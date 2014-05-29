@@ -20,8 +20,13 @@ import java.util.jar.JarFile;
  */
 public class Marla {
 
-    public static String VERSION = "0.0.1.0";
+    public static String VERSION = "0.0.1.4";
     public static String NAME = "Marla";
+    public static String SUFFIX = " > ";
+
+    private ArrayList<String> positiveInputs = new ArrayList<>();
+    private ArrayList<String> negativeInputs = new ArrayList<>();
+
     private ArrayList<Output> outputs = new ArrayList<>();
     private ArrayList<Activator> activators = new ArrayList<>();
     private Activator lockedActivator;
@@ -70,6 +75,19 @@ public class Marla {
         }catch (Exception e){e.printStackTrace();}
     }
 
+
+    private void populateInputs(){
+        //Positives
+        positiveInputs.add("y");
+        positiveInputs.add("yes");
+        positiveInputs.add("yeah");
+        positiveInputs.add("yesh");
+        positiveInputs.add("correct");
+        positiveInputs.add("affirmative");
+        positiveInputs.add("alright");
+        positiveInputs.add("yer");
+    }
+
     /**
      * Locks to a specific activator. This method is
      * only called from the Activator class, specifically
@@ -91,6 +109,38 @@ public class Marla {
     }
 
     /**
+     * @return a list of positive strings that could be used by the user to reply to a question.
+     */
+    public String[] getPositiveInputs(){
+        String[] tmp = new String[positiveInputs.size()];
+        for (int i = 0; i < positiveInputs.size(); i++) {
+            tmp[i] = positiveInputs.get(i);
+        }
+        return tmp;
+    }
+
+    /**
+     * @return a list of negative strings that could be used by the user to reply to a question.
+     */
+    public String[] getNegativeInputs(){
+        String[] tmp = new String[negativeInputs.size()];
+        for (int i = 0; i < negativeInputs.size(); i++) {
+            tmp[i] = negativeInputs.get(i);
+        }
+        return tmp;
+    }
+
+    /**
+     * Add a negative reply to the list.
+     * @param negatives String(s) that can be added to the negative list
+     */
+    public void addNegatives(String... negatives){
+        for (String s : negatives) {
+            this.negativeInputs.add(s);
+        }
+    }
+
+    /**
      * How input is handled. From here Marla will figure out
      * how to parse the input, and what plugins need to be
      * told about the input. Also handles how
@@ -106,7 +156,8 @@ public class Marla {
                 }
             }
         }else{
-            if(!in.equals("!exit"))
+            if(in.equals("reload"))  ;
+            else if(!in.equals("!exit"))
                 lockedActivator.in(in);
             else{
                 output("Exiting from " + lockedActivator.getActivators()[0]);
@@ -126,6 +177,10 @@ public class Marla {
      */
     public void output(String out){
         for (int i = 0; i < outputs.size(); i++) {
+            if(lockedActivator != null)
+            out = lockedActivator.getName() + SUFFIX + out;
+            else
+                out = NAME + SUFFIX + out;
             outputs.get(i).out(out);
         }
     }
