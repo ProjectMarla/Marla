@@ -68,7 +68,8 @@ public abstract class Thoughts extends Base {
     }
 
     /**
-     * Every tick is defined in the constructor.
+     *  The lenght of every click is defined
+     *  when the constructor is called
      */
     public abstract void onClick();
 }
