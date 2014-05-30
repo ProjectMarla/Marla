@@ -26,6 +26,7 @@ public class Marla {
 
     private ArrayList<String> positiveInputs = new ArrayList<>();
     private ArrayList<String> negativeInputs = new ArrayList<>();
+    private ArrayList<String> unclearInputs = new ArrayList<>();
 
     private ArrayList<Output> outputs = new ArrayList<>();
     private ArrayList<Activator> activators = new ArrayList<>();
@@ -86,6 +87,26 @@ public class Marla {
         positiveInputs.add("affirmative");
         positiveInputs.add("alright");
         positiveInputs.add("yer");
+        positiveInputs.add("indubitably");
+        positiveInputs.add("sure");
+
+        negativeInputs.add("n");
+        negativeInputs.add("no");
+        negativeInputs.add("nope");
+        negativeInputs.add("nah");
+        negativeInputs.add("negative");
+        negativeInputs.add("nup");
+        negativeInputs.add("n");
+        negativeInputs.add("dubitably");
+
+        unclearInputs.add("not sure");
+        unclearInputs.add("I don't know");
+        unclearInputs.add("dunno");
+        unclearInputs.add("no idea");
+        unclearInputs.add("hmm");
+        unclearInputs.add("hm");
+        unclearInputs.add("beats me");
+        unclearInputs.add("don't ask me");
     }
 
     /**
@@ -131,19 +152,51 @@ public class Marla {
     }
 
     /**
+     * @return a list of unclear strings that could be used by the user to reply to a question.
+     */
+    public String[] getUnclearInputs(){
+        String[] tmp = new String[unclearInputs.size()];
+        for (int i = 0; i < unclearInputs.size(); i++) {
+            tmp[i] = unclearInputs.get(i);
+        }
+        return tmp;
+    }
+
+    /**
      * Add a negative reply to the list.
      * @param negatives String(s) that can be added to the negative list
      */
-    public void addNegatives(String... negatives){
+    public void addNegativeInputs(String... negatives){
         for (String s : negatives) {
             this.negativeInputs.add(s);
         }
     }
 
     /**
+     * Add a positive reply to the list.
+     * @param positives String(s) that can be added to the positive list
+     */
+    public void addPositiveInputs(String... positives){
+        for(String s : positives){
+            this.positiveInputs.add(s);
+        }
+    }
+
+    /**
+     * Add an unclear reply to the list.
+     * @param unclear String(s) that can be added to the unclear list
+     */
+    public void addUnclearInputs(String... unclear){
+        for(String s : unclear){
+            unclearInputs.add(s);
+        }
+    }
+
+    /**
      * How input is handled. From here Marla will figure out
      * how to parse the input, and what plugins need to be
-     * told about the input. Also handles how
+     * told about the input. Also handles how a user might escape from
+     * locked in plugins, or specific Marla only commands.
      * @param in
      * @return this instance of Marla
      */
@@ -152,7 +205,7 @@ public class Marla {
         if(lockedActivator == null) {
             for (Activator ac : activators) {
                 if (ac.check(in)) {
-
+                    //TODO
                 }
             }
         }else{
@@ -165,6 +218,22 @@ public class Marla {
             }
         }
         //return this;
+    }
+
+    /**
+     * Reloads Marla fully.
+     * It is important that this method is called if you
+     * had changed Marla as it will safely turn off all the plugins before stopping.
+     * It would be silly to keep constantly calling this method as it
+     * would just strain your computer.
+     */
+    public final void reload(){
+        for(Activator ac : activators){
+            ac.end();
+        }
+        for(Output out : outputs){
+            out.end();
+        }
     }
 
     /**
