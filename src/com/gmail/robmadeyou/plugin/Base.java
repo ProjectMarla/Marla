@@ -31,12 +31,9 @@ public abstract class Base {
     /**
      * Sets Marla, and starts a new thread with
      * the Init. A new thread is started in case
-     * coder wants to make a while loop to register all the text.
+     * cader wants to do some intense things while initializing
+     * the plugin.
      * This way the main thread doesn't hang.
-     *
-     * How ever if the coder doesn't create a while loop, or any
-     * other kind of loop, it will mean that the input will only
-     * work once.
      */
     public Base setMarla(Marla marla) {
         if (!initialized){
