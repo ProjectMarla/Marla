@@ -41,8 +41,19 @@ public class Marla {
      * a json or an xml or something along the lines).
      */
     public Marla(){
+
+        searchDirectoryForPlugins("brains/");
+
+    }
+
+    /**
+     * Searches a directory relative to the current working directory
+     * and looks for all the possible plugins to load
+     * @param dir directory to work in. Is relative to current working directory.
+     */
+    public void searchDirectoryForPlugins(String dir){
         try {
-            Files.walk(Paths.get("brains/")).forEach(filePath -> {
+            Files.walk(Paths.get(dir)).forEach(filePath -> {
                 String file = filePath+"";
                 if(Files.isRegularFile(filePath) && file.endsWith(".jar")) {
                     try {

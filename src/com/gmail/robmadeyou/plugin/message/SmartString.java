@@ -110,5 +110,4 @@ public class SmartString {
         }catch (Exception e){};
         return in;
     }
-
 }
