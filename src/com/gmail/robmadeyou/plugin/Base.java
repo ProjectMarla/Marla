@@ -31,7 +31,7 @@ public abstract class Base {
     /**
      * Sets Marla, and starts a new thread with
      * the Init. A new thread is started in case
-     * cader wants to do some intense things while initializing
+     * coder wants to do some intense things while initializing
      * the plugin.
      * This way the main thread doesn't hang.
      */
