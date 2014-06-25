@@ -212,6 +212,7 @@ public class Marla {
      * @return this instance of Marla
      */
     public void input(String in){
+        //TODO convert all string words into word words for Marla to understand them easier
         //Check if input is a question
         if(lockedActivator == null) {
             for (Activator ac : activators) {
@@ -239,6 +240,7 @@ public class Marla {
      * would just strain your computer.
      */
     public final void reload(){
+        //TODO Finish reloading plugins
         for(Activator ac : activators){
             ac.end();
         }
